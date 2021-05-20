@@ -1,5 +1,6 @@
 
 .vscode
+temp.txt
 
 ### Django ###
 *.log
