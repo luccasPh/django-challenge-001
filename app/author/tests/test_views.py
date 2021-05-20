@@ -27,7 +27,7 @@ class AuthorViewsTest(TestCase):
         )
 
     def test_login_required(self):
-        """Test that login is required for creating author"""
+        """Test that login is required for author endpoint"""
         payload = dict(name="Test Author Name")
 
         response = self.client.post(AUTHOR_URL, payload)
@@ -35,7 +35,7 @@ class AuthorViewsTest(TestCase):
         self.assertTrue(response.data)
 
     def test_admin_level_required(self):
-        """Test that admin level is required for creating author"""
+        """Test that admin level is required for author endpoint"""
         payload = dict(name="Test Author Name")
         user = get_user_model().objects.create_user(
             email="test@email.com", password="test_password"
@@ -49,6 +49,7 @@ class AuthorViewsTest(TestCase):
     def test_create_author_without_name_fails(self):
         """Test creating author without name fails"""
         self.client.force_authenticate(user=self.admin)
+
         payload = dict(name="")
 
         response = self.client.post(AUTHOR_URL, payload)
@@ -58,6 +59,7 @@ class AuthorViewsTest(TestCase):
     def test_create_author_successful(self):
         """Test creating author successful"""
         self.client.force_authenticate(user=self.admin)
+
         payload = dict(name="Test Author Name")
 
         response = self.client.post(AUTHOR_URL, payload)
@@ -67,6 +69,7 @@ class AuthorViewsTest(TestCase):
     def test_update_author_with_invalid_id_fails(self):
         """Test that updating author with id invalid fails"""
         self.client.force_authenticate(user=self.admin)
+
         payload = dict(name="Test Author New Name")
 
         response = self.client.put(f"{AUTHOR_URL}invalid_id", payload)
@@ -76,6 +79,7 @@ class AuthorViewsTest(TestCase):
     def test_update_author_not_found_fails(self):
         """Test that updating author not found fails"""
         self.client.force_authenticate(user=self.admin)
+
         payload = dict(name="Test Author New Name")
 
         response = self.client.put(f"{AUTHOR_URL}{uuid.uuid4()}", payload)
@@ -85,6 +89,7 @@ class AuthorViewsTest(TestCase):
     def test_update_author_successful(self):
         """Test that updating author successful"""
         self.client.force_authenticate(user=self.admin)
+
         author = self.model.objects.create(name="Test Author Name")
         payload = dict(name="Test Author New Name")
 
@@ -95,6 +100,7 @@ class AuthorViewsTest(TestCase):
     def test_remove_author_successful(self):
         """Test that removing author successful"""
         self.client.force_authenticate(user=self.admin)
+
         author = self.model.objects.create(name="Test Author Name")
 
         response = self.client.delete(f"{AUTHOR_URL}{author.id}")
@@ -105,6 +111,7 @@ class AuthorViewsTest(TestCase):
     def test_author_upload_picture_successful(self):
         """Test that uploading picture for author successful"""
         self.client.force_authenticate(user=self.admin)
+
         author = self.model.objects.create(name="Test Author Name")
         with tempfile.NamedTemporaryFile(suffix=".jpg") as ntf:
             img = Image.new("RGB", (10, 10))
@@ -124,6 +131,7 @@ class AuthorViewsTest(TestCase):
     def test_retrieve_author_successful(self):
         """Test that retrieving author successful"""
         self.client.force_authenticate(user=self.admin)
+
         author = self.model.objects.create(name="Test Author Name")
 
         response = self.client.get(f"{AUTHOR_URL}{author.id}")
