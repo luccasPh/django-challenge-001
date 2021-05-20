@@ -18,7 +18,7 @@ class ArticleModelTest(TestCase):
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
-            first_paragraph="This is the first paragraph of this article",
+            firstParagraph="This is the first paragraph of this article",
             body="Second paragraph. Third paragraph",
         )
 
@@ -28,7 +28,7 @@ class ArticleModelTest(TestCase):
         self.assertEqual(article.category, data["category"])
         self.assertEqual(article.title, data["title"])
         self.assertEqual(article.summary, data["summary"])
-        self.assertEqual(article.first_paragraph, data["first_paragraph"])
+        self.assertEqual(article.firstParagraph, data["firstParagraph"])
         self.assertEqual(article.body, data["body"])
 
     def test_update_article_successful(self):
@@ -38,7 +38,7 @@ class ArticleModelTest(TestCase):
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
-            first_paragraph="This is the first paragraph of this article",
+            firstParagraph="This is the first paragraph of this article",
             body="Second paragraph. Third paragraph",
         )
         article = self.model.objects.create(**create_data)
@@ -48,7 +48,7 @@ class ArticleModelTest(TestCase):
             category="New Category",
             title="Article new title",
             summary="This is a new summary of the article",
-            first_paragraph="This is the new first paragraph of this article",
+            firstParagraph="This is the new first paragraph of this article",
             body="Second new paragraph. Third new paragraph",
         )
         self.model.objects.filter(id=article.id).update(**update_data)
@@ -57,7 +57,7 @@ class ArticleModelTest(TestCase):
         self.assertEqual(article.category, update_data["category"])
         self.assertEqual(article.title, update_data["title"])
         self.assertEqual(article.summary, update_data["summary"])
-        self.assertEqual(article.first_paragraph, update_data["first_paragraph"])
+        self.assertEqual(article.firstParagraph, update_data["firstParagraph"])
         self.assertEqual(article.body, update_data["body"])
 
     def test_retrieve_an_article_successful(self):
@@ -67,7 +67,7 @@ class ArticleModelTest(TestCase):
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
-            first_paragraph="This is the first paragraph of this article",
+            firstParagraph="This is the first paragraph of this article",
             body="Second paragraph. Third paragraph",
         )
         article = self.model.objects.create(**data)
@@ -78,7 +78,7 @@ class ArticleModelTest(TestCase):
         self.assertEqual(retrieve_article.category, article.category)
         self.assertEqual(retrieve_article.title, article.title)
         self.assertEqual(retrieve_article.summary, article.summary)
-        self.assertEqual(retrieve_article.first_paragraph, article.first_paragraph)
+        self.assertEqual(retrieve_article.firstParagraph, article.firstParagraph)
         self.assertEqual(retrieve_article.body, article.body)
 
     def test_remove_an_article_successful(self):
@@ -88,7 +88,7 @@ class ArticleModelTest(TestCase):
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
-            first_paragraph="This is the first paragraph of this article",
+            firstParagraph="This is the first paragraph of this article",
             body="Second paragraph. Third paragraph",
         )
         article = self.model.objects.create(**data)

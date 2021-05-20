@@ -72,7 +72,7 @@ class AuthorViewsTest(TestCase):
 
         payload = dict(name="Test Author New Name")
 
-        response = self.client.put(f"{AUTHOR_URL}invalid_id", payload)
+        response = self.client.put(f"{AUTHOR_URL}invalid_id/", payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertTrue(response.data)
 
@@ -82,7 +82,7 @@ class AuthorViewsTest(TestCase):
 
         payload = dict(name="Test Author New Name")
 
-        response = self.client.put(f"{AUTHOR_URL}{uuid.uuid4()}", payload)
+        response = self.client.put(f"{AUTHOR_URL}{uuid.uuid4()}/", payload)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(response.data)
 
@@ -93,7 +93,7 @@ class AuthorViewsTest(TestCase):
         author = self.model.objects.create(name="Test Author Name")
         payload = dict(name="Test Author New Name")
 
-        response = self.client.put(f"{AUTHOR_URL}{author.id}", payload)
+        response = self.client.put(f"{AUTHOR_URL}{author.id}/", payload)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], payload["name"])
 
@@ -103,7 +103,7 @@ class AuthorViewsTest(TestCase):
 
         author = self.model.objects.create(name="Test Author Name")
 
-        response = self.client.delete(f"{AUTHOR_URL}{author.id}")
+        response = self.client.delete(f"{AUTHOR_URL}{author.id}/")
         author = self.model.objects.filter(id=author.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(author)
@@ -118,7 +118,7 @@ class AuthorViewsTest(TestCase):
             img.save(ntf, format="JPEG")
             ntf.seek(0)
             response = self.client.patch(
-                f"{AUTHOR_URL}{author.id}",
+                f"{AUTHOR_URL}{author.id}/",
                 dict(picture=ntf),
                 format="multipart",
             )
@@ -134,7 +134,7 @@ class AuthorViewsTest(TestCase):
 
         author = self.model.objects.create(name="Test Author Name")
 
-        response = self.client.get(f"{AUTHOR_URL}{author.id}")
+        response = self.client.get(f"{AUTHOR_URL}{author.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], str(author.id))
         self.assertEqual(response.data["name"], author.name)

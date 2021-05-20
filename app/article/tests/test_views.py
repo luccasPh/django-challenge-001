@@ -25,7 +25,7 @@ class AdminArticleViewsTest(TestCase):
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
-            first_paragraph="This is the first paragraph of this article",
+            firstParagraph="This is the first paragraph of this article",
             body="Second paragraph. Third paragraph",
         )
 
@@ -51,11 +51,11 @@ class AdminArticleViewsTest(TestCase):
         self.client.force_authenticate(user=self.admin)
 
         payload = dict(
-            author="",
+            author_id="",
             category="",
             title="",
             summary="",
-            first_paragraph="",
+            firstParagraph="",
             body="",
         )
 
@@ -94,7 +94,7 @@ class AdminArticleViewsTest(TestCase):
         self.assertEqual(response.data["title"], self.payload["title"])
         self.assertEqual(response.data["summary"], self.payload["summary"])
         self.assertEqual(
-            response.data["first_paragraph"], self.payload["first_paragraph"]
+            response.data["firstParagraph"], self.payload["firstParagraph"]
         )
         self.assertEqual(response.data["body"], self.payload["body"])
 
@@ -109,7 +109,7 @@ class AdminArticleViewsTest(TestCase):
         self.payload["summary"] = "This is a new summary of the article"
         self.payload["author_id"] = self.author.id
 
-        response = self.client.put(f"{ADMIN_ARTICLE_URL}invalid_id", self.payload)
+        response = self.client.put(f"{ADMIN_ARTICLE_URL}invalid_id/", self.payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertTrue(response.data)
 
@@ -124,7 +124,7 @@ class AdminArticleViewsTest(TestCase):
         self.payload["summary"] = "This is a new summary of the article"
         self.payload["author_id"] = self.author.id
 
-        response = self.client.put(f"{ADMIN_ARTICLE_URL}{uuid.uuid4()}", self.payload)
+        response = self.client.put(f"{ADMIN_ARTICLE_URL}{uuid.uuid4()}/", self.payload)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(response.data)
 
@@ -139,7 +139,7 @@ class AdminArticleViewsTest(TestCase):
         self.payload["summary"] = "This is a new summary of the article"
         self.payload["author_id"] = self.author.id
 
-        response = self.client.put(f"{ADMIN_ARTICLE_URL}{article.id}", self.payload)
+        response = self.client.put(f"{ADMIN_ARTICLE_URL}{article.id}/", self.payload)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], str(article.id))
         self.assertEqual(response.data["title"], self.payload["title"])
@@ -152,7 +152,7 @@ class AdminArticleViewsTest(TestCase):
         self.payload["author_id"] = self.author
         article = self.model.objects.create(**self.payload)
 
-        response = self.client.delete(f"{ADMIN_ARTICLE_URL}{article.id}")
+        response = self.client.delete(f"{ADMIN_ARTICLE_URL}{article.id}/")
         exists = self.model.objects.filter(id=article.id).exists()
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(exists)
@@ -164,11 +164,11 @@ class AdminArticleViewsTest(TestCase):
         self.payload["author_id"] = self.author
         article = self.model.objects.create(**self.payload)
 
-        response = self.client.get(f"{ADMIN_ARTICLE_URL}{article.id}")
+        response = self.client.get(f"{ADMIN_ARTICLE_URL}{article.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["author"]["id"], str(article.author_id.id))
         self.assertEqual(response.data["category"], article.category)
         self.assertEqual(response.data["title"], article.title)
         self.assertEqual(response.data["summary"], article.summary)
-        self.assertEqual(response.data["first_paragraph"], article.first_paragraph)
+        self.assertEqual(response.data["firstParagraph"], article.firstParagraph)
         self.assertEqual(response.data["body"], article.body)

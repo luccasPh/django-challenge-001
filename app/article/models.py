@@ -8,7 +8,7 @@ class Article(models.Model):
     category = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     summary = models.TextField()
-    first_paragraph = models.TextField(verbose_name="firstParagraph")
+    firstParagraph = models.TextField()
     body = models.TextField()
 
     def __str__(self):
