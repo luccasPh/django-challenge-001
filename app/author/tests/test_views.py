@@ -11,7 +11,7 @@ from rest_framework import status
 
 from ..models import Author
 
-AUTHOR_URL = reverse("author")
+AUTHOR_URL = reverse("authors")
 
 
 def remove_file(filename):
@@ -103,6 +103,7 @@ class AuthorViewsTest(TestCase):
         self.assertFalse(author)
 
     def test_author_upload_picture_successful(self):
+        """Test that uploading picture for author successful"""
         self.client.force_authenticate(user=self.admin)
         author = self.model.objects.create(name="Test Author Name")
         with tempfile.NamedTemporaryFile(suffix=".jpg") as ntf:
@@ -110,7 +111,7 @@ class AuthorViewsTest(TestCase):
             img.save(ntf, format="JPEG")
             ntf.seek(0)
             response = self.client.patch(
-                f"{AUTHOR_URL}{author.id}/upload",
+                f"{AUTHOR_URL}{author.id}",
                 dict(picture=ntf),
                 format="multipart",
             )
@@ -119,3 +120,14 @@ class AuthorViewsTest(TestCase):
 
         author.refresh_from_db()
         remove_file(f"{author.picture}")
+
+    def test_retrieve_author_successful(self):
+        """Test that retrieving author successful"""
+        self.client.force_authenticate(user=self.admin)
+        author = self.model.objects.create(name="Test Author Name")
+
+        response = self.client.get(f"{AUTHOR_URL}{author.id}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], str(author.id))
+        self.assertEqual(response.data["name"], author.name)
+        self.assertEqual(response.data["picture"], author.picture)
