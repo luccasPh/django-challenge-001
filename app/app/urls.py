@@ -5,4 +5,5 @@ from django.conf import settings
 urlpatterns = [
     path("api/", include("user.urls")),
     path("api/admin/authors", include("author.urls")),
+    path("api/", include("article.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
