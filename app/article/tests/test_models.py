@@ -14,7 +14,7 @@ class ArticleModelTest(TestCase):
     def test_create_article_successful(self):
         """Test creating a new article successful"""
         data = dict(
-            author=self.author,
+            author_id=self.author,
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
@@ -24,7 +24,7 @@ class ArticleModelTest(TestCase):
 
         article = self.model.objects.create(**data)
         self.assertTrue(article.id)
-        self.assertEqual(article.author, self.author)
+        self.assertEqual(article.author_id, self.author)
         self.assertEqual(article.category, data["category"])
         self.assertEqual(article.title, data["title"])
         self.assertEqual(article.summary, data["summary"])
@@ -34,7 +34,7 @@ class ArticleModelTest(TestCase):
     def test_update_article_successful(self):
         """Test updating an article successful"""
         create_data = dict(
-            author=self.author,
+            author_id=self.author,
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
@@ -44,7 +44,7 @@ class ArticleModelTest(TestCase):
         article = self.model.objects.create(**create_data)
 
         update_data = dict(
-            author=self.author,
+            author_id=self.author,
             category="New Category",
             title="Article new title",
             summary="This is a new summary of the article",
@@ -53,7 +53,7 @@ class ArticleModelTest(TestCase):
         )
         self.model.objects.filter(id=article.id).update(**update_data)
         article.refresh_from_db()
-        self.assertEqual(article.author, update_data["author"])
+        self.assertEqual(article.author_id, update_data["author_id"])
         self.assertEqual(article.category, update_data["category"])
         self.assertEqual(article.title, update_data["title"])
         self.assertEqual(article.summary, update_data["summary"])
@@ -63,7 +63,7 @@ class ArticleModelTest(TestCase):
     def test_retrieve_an_article_successful(self):
         """Test retrieving an article successful"""
         data = dict(
-            author=self.author,
+            author_id=self.author,
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
@@ -74,7 +74,7 @@ class ArticleModelTest(TestCase):
 
         retrieve_article = self.model.objects.filter(id=article.id).first()
         self.assertEqual(retrieve_article.id, article.id)
-        self.assertEqual(retrieve_article.author, article.author)
+        self.assertEqual(retrieve_article.author_id, article.author_id)
         self.assertEqual(retrieve_article.category, article.category)
         self.assertEqual(retrieve_article.title, article.title)
         self.assertEqual(retrieve_article.summary, article.summary)
@@ -84,7 +84,7 @@ class ArticleModelTest(TestCase):
     def test_remove_an_article_successful(self):
         """Test removing an article successful"""
         data = dict(
-            author=self.author,
+            author_id=self.author,
             category="Category",
             title="Article title",
             summary="This is a summary of the article",
