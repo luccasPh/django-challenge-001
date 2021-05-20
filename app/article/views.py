@@ -1,6 +1,5 @@
 from uuid import UUID
 from django.http.request import HttpRequest
-from django.apps import apps
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.authentication import TokenAuthentication
@@ -44,13 +43,15 @@ class AdminArticleView(APIView):
 
     def get(self, request: HttpRequest, pk=None):
         queryset = self.get_queryset(pk)
-        serializer = ArticleSerializer(instance=queryset)
+        serializer = ArticleSerializer(instance=queryset, context={"request": request})
 
         return Response(data=serializer.data)
 
     def put(self, request: HttpRequest, pk=None):
         queryset = self.get_queryset(pk)
-        serializer = ArticleSerializer(instance=queryset, data=request.data)
+        serializer = ArticleSerializer(
+            instance=queryset, data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

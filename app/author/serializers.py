@@ -9,8 +9,20 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "picture"]
         read_only_fields = ["id", "picture"]
 
+    def get_picture(self, obj):
+        if not obj.picture:
+            return obj
+
+        return self.context["request"].build_absolute_uri(obj.picture.url)
+
 
 class AuthorUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ["picture"]
+
+    def get_picture(self, obj):
+        if not obj.picture:
+            return obj
+
+        return self.context["request"].build_absolute_uri(obj.picture.url)

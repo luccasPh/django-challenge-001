@@ -42,12 +42,14 @@ class AuthorView(APIView):
 
     def get(self, request, pk=None):
         queryset = self.get_queryset(pk)
-        serialize = AuthorSerializer(instance=queryset)
+        serialize = AuthorSerializer(instance=queryset, context={"request": request})
         return Response(data=serialize.data)
 
     def put(self, request, pk=None):
         queryset = self.get_queryset(pk)
-        serialize = AuthorSerializer(instance=queryset, data=request.data)
+        serialize = AuthorSerializer(
+            instance=queryset, data=request.data, context={"request": request}
+        )
         serialize.is_valid(raise_exception=True)
         serialize.save()
 
@@ -56,7 +58,10 @@ class AuthorView(APIView):
     def patch(self, request, pk=None):
         queryset = self.get_queryset(pk)
         serializer = AuthorUploadSerializer(
-            instance=queryset, data=request.data, partial=True
+            instance=queryset,
+            data=request.data,
+            partial=True,
+            context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()

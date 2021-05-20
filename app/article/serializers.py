@@ -9,6 +9,12 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = apps.get_model("author", "Author")
         fields = "__all__"
 
+    def get_picture(self, obj):
+        if not obj.picture:
+            return obj
+
+        return self.context["request"].build_absolute_uri(obj.picture.url)
+
 
 class ArticleSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(source="author_id", read_only=True)
