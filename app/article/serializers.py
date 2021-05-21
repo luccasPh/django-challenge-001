@@ -5,13 +5,16 @@ from .models import Article
 
 
 class AuthorSerializer(serializers.ModelSerializer):
+    picture = serializers.SerializerMethodField(source="picture")
+
     class Meta:
+        ref_name = None
         model = apps.get_model("author", "Author")
-        fields = "__all__"
+        fields = ["id", "name", "picture"]
 
     def get_picture(self, obj):
         if not obj.picture:
-            return obj
+            return None
 
         return self.context["request"].build_absolute_uri(obj.picture.url)
 
@@ -22,19 +25,15 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = "__all__"
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "author"]
         extra_kwargs = {"author_id": {"write_only": True}}
 
 
 class ListArticleSerializer(ArticleSerializer):
     class Meta(ArticleSerializer.Meta):
-        extra_kwargs = {
-            "author_id": {"write_only": True},
-            "firstParagraph": {"write_only": True},
-            "body": {"write_only": True},
-        }
+        fields = ["id", "author", "category", "title", "summary"]
 
 
 class AnonymousArticleSerializer(ArticleSerializer):
     class Meta(ArticleSerializer.Meta):
-        extra_kwargs = {"author_id": {"write_only": True}, "body": {"write_only": True}}
+        fields = ["id", "author", "category", "title", "summary", "firstParagraph"]
