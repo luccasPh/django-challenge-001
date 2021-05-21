@@ -24,3 +24,17 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["id"]
         extra_kwargs = {"author_id": {"write_only": True}}
+
+
+class ListArticleSerializer(ArticleSerializer):
+    class Meta(ArticleSerializer.Meta):
+        extra_kwargs = {
+            "author_id": {"write_only": True},
+            "firstParagraph": {"write_only": True},
+            "body": {"write_only": True},
+        }
+
+
+class AnonymousArticleSerializer(ArticleSerializer):
+    class Meta(ArticleSerializer.Meta):
+        extra_kwargs = {"author_id": {"write_only": True}, "body": {"write_only": True}}

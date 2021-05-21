@@ -10,6 +10,7 @@ from ..models import Article
 
 AUTHOR_MODEL = apps.get_model("author", "Author")
 ADMIN_ARTICLE_URL = reverse("article-admin")
+PUBLIC_ARTICLE_URL = reverse("article-public")
 
 
 class AdminArticleViewsTest(TestCase):
@@ -172,3 +173,108 @@ class AdminArticleViewsTest(TestCase):
         self.assertEqual(response.data["summary"], article.summary)
         self.assertEqual(response.data["firstParagraph"], article.firstParagraph)
         self.assertEqual(response.data["body"], article.body)
+
+
+class PublicArticleViewsTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.model = Article
+        self.author = AUTHOR_MODEL.objects.create(name="Test Author Name")
+
+    def test_list_articles_by_category_without_query_param_fails(self):
+        """Test list articles by category without query param fails"""
+        response = self.client.get(f"{PUBLIC_ARTICLE_URL}")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertTrue(response.data)
+
+    def test_list_articles_by_category_successful(self):
+        """Test list articles by category successful"""
+        insert_list = [
+            self.model(
+                author_id=self.author,
+                category="Category 1",
+                title="Article title",
+                summary="This is a summary of the article",
+                firstParagraph="This is the first paragraph of this article",
+                body="Second paragraph. Third paragraph",
+            ),
+            self.model(
+                author_id=self.author,
+                category="Category 1",
+                title="Article title",
+                summary="This is a summary of the article",
+                firstParagraph="This is the first paragraph of this article",
+                body="Second paragraph. Third paragraph",
+            ),
+            self.model(
+                author_id=self.author,
+                category="Category 2",
+                title="Article title",
+                summary="This is a summary of the article",
+                firstParagraph="This is the first paragraph of this article",
+                body="Second paragraph. Third paragraph",
+            ),
+        ]
+        self.model.objects.bulk_create(insert_list)
+
+        response = self.client.get(f"{PUBLIC_ARTICLE_URL}?category=Category 1")
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data[0]["category"], "Category 1")
+        self.assertEqual(response.data[1]["category"], "Category 1")
+        self.assertNotIn("firstParagraph", response.data[0])
+        self.assertNotIn("body", response.data[0])
+        self.assertNotIn("firstParagraph", response.data[1])
+        self.assertNotIn("body", response.data[1])
+
+    def test_retrieve_article_by_id_invalid_fails(self):
+        """Test retrieving article by id invalid fails"""
+        response = self.client.get(f"{PUBLIC_ARTICLE_URL}invalid_id/")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertTrue(response.data)
+
+    def test_retrieve_article_by_id_not_found_fails(self):
+        """Test retrieving article by id not found fails"""
+        response = self.client.get(f"{PUBLIC_ARTICLE_URL}{uuid.uuid4()}/")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(response.data)
+
+    def test_user_not_authenticated_retrieve_article_by_id_successful(self):
+        """Test when user is not authenticated retrieving article by id successful"""
+        data = dict(
+            author_id=self.author,
+            category="Category 1",
+            title="Article title",
+            summary="This is a summary of the article",
+            firstParagraph="This is the first paragraph of this article",
+            body="Second paragraph. Third paragraph",
+        )
+        article = self.model.objects.create(**data)
+
+        response = self.client.get(f"{PUBLIC_ARTICLE_URL}{article.id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data["author"]["id"], data["author_id"].id)
+        self.assertTrue(response.data["title"], data["title"])
+        self.assertNotIn("body", response.data)
+
+    def test_user_authenticated_retrieve_article_by_id_successful(self):
+        """Test when user is authenticated retrieving article by id successful"""
+        data = dict(
+            author_id=self.author,
+            category="Category 1",
+            title="Article title",
+            summary="This is a summary of the article",
+            firstParagraph="This is the first paragraph of this article",
+            body="Second paragraph. Third paragraph",
+        )
+        article = self.model.objects.create(**data)
+
+        user = get_user_model().objects.create_user(
+            email="teste@email.com", password="test_password"
+        )
+        self.client.force_authenticate(user=user)
+
+        response = self.client.get(f"{PUBLIC_ARTICLE_URL}{article.id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data["author"]["id"], data["author_id"].id)
+        self.assertTrue(response.data["title"], data["title"])
+        self.assertTrue(response.data["body"], data["body"])
