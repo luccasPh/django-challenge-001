@@ -118,7 +118,7 @@ class AuthorViewsTest(TestCase):
             img.save(ntf, format="JPEG")
             ntf.seek(0)
             response = self.client.patch(
-                f"{AUTHOR_URL}{author.id}/",
+                f"{AUTHOR_URL}{author.id}/picture/",
                 dict(picture=ntf),
                 format="multipart",
             )

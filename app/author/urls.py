@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import AuthorView
+from .views import AuthorView, CreateAuthorView, PictureAuthorView
 
 urlpatterns = [
-    path("", AuthorView.as_view(), name="authors"),
+    path("", CreateAuthorView.as_view(), name="authors"),
     path("<str:pk>/", AuthorView.as_view(), name="authors"),
+    path("<str:pk>/picture/", PictureAuthorView.as_view(), name="authors"),
 ]
