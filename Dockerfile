@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
-COPY ./.env /.env 
+COPY ./.env.prod /.env 
 
 RUN apt-get update \ 
     && apt-get install --no-install-recommends -y \
