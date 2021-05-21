@@ -1,0 +1,474 @@
+{
+	"info": {
+		"_postman_id": "663e420b-3a71-4b48-b936-1175edb630d5",
+		"name": "djnago-challenge-001",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@email.com\",\n  \"password\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@email.com\",\n  \"password\": \"test\",\n  \"password_confirmation\": \"test\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/sign-up/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"sign-up",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Author name\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/admin/authors/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/admin/authors/24332d45-c92a-4270-bf9f-7df93f4b2e2c/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								"24332d45-c92a-4270-bf9f-7df93f4b2e2c",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Author Surname\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/admin/authors/a3e006e6-6acc-49cb-bb65-7e21d2eb5be4/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								"a3e006e6-6acc-49cb-bb65-7e21d2eb5be4",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Picture",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/home/lucas/Downloads/1613574797525.jpeg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/admin/authors/24332d45-c92a-4270-bf9f-7df93f4b2e2c/picture/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								"24332d45-c92a-4270-bf9f-7df93f4b2e2c",
+								"picture",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/admin/authors/a3e006e6-6acc-49cb-bb65-7e21d2eb5be4/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"authors",
+								"a3e006e6-6acc-49cb-bb65-7e21d2eb5be4",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin Articles",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"author_id\": \"24332d45-c92a-4270-bf9f-7df93f4b2e2c\",\n  \"category\": \"Category\",\n  \"title\": \"Article title\",\n  \"summary\": \"This is a summary of the article\",\n  \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n  \"body\": \"<div><p>Second paragraph</p><p>Third paragraph</p></div>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/admin/articles/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"articles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/admin/articles/3812d27b-cc18-41d2-9b27-d63f811025e0/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"articles",
+								"3812d27b-cc18-41d2-9b27-d63f811025e0",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"author_id\": \"24332d45-c92a-4270-bf9f-7df93f4b2e2c\",\n  \"category\": \"Category\",\n  \"title\": \"Article new title\",\n  \"summary\": \"This is a new summary of the article\",\n  \"firstParagraph\": \"<p>This is new the first paragraph of this article</p>\",\n  \"body\": \"<div><p>Second paragraph</p><p>Third paragraph</p></div>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/admin/articles/3812d27b-cc18-41d2-9b27-d63f811025e0/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"articles",
+								"3812d27b-cc18-41d2-9b27-d63f811025e0",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/admin/articles/3812d27b-cc18-41d2-9b27-d63f811025e0/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"articles",
+								"3812d27b-cc18-41d2-9b27-d63f811025e0",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Public Articles",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"author_id\": \"24332d45-c92a-4270-bf9f-7df93f4b2e2c\",\n  \"category\": \"Category\",\n  \"title\": \"Article title\",\n  \"summary\": \"This is a summary of the article\",\n  \"firstParagraph\": \"<p>This is the first paragraph of this article</p>\",\n  \"body\": \"<div><p>Second paragraph</p><p>Third paragraph</p></div>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/articles/?category=Category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"articles",
+								""
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "Category"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token c393f514d69e1f019c76c3e6f55752ba3fe9001b",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/admin/articles/3812d27b-cc18-41d2-9b27-d63f811025e0/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"articles",
+								"3812d27b-cc18-41d2-9b27-d63f811025e0",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
