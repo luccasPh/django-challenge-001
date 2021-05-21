@@ -9,8 +9,8 @@ from rest_framework import status
 from ..models import Article
 
 AUTHOR_MODEL = apps.get_model("author", "Author")
-ADMIN_ARTICLE_URL = reverse("article-admin")
-PUBLIC_ARTICLE_URL = reverse("article-public")
+ADMIN_ARTICLE_URL = reverse("admin-article")
+PUBLIC_ARTICLE_URL = reverse("public-article")
 
 
 class AdminArticleViewsTest(TestCase):
@@ -45,23 +45,6 @@ class AdminArticleViewsTest(TestCase):
 
         response = self.client.post(ADMIN_ARTICLE_URL, self.payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertTrue(response.data)
-
-    def test_create_article_with_blank_params_fails(self):
-        """Test creating article with blank params fails"""
-        self.client.force_authenticate(user=self.admin)
-
-        payload = dict(
-            author_id="",
-            category="",
-            title="",
-            summary="",
-            firstParagraph="",
-            body="",
-        )
-
-        response = self.client.post(ADMIN_ARTICLE_URL, payload)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertTrue(response.data)
 
     def test_create_article_with_invalid_author_fails(self):
