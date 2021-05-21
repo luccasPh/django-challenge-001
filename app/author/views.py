@@ -14,24 +14,17 @@ class AuthorView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
-    def validate(self, pk):
+    def get_queryset(self, pk):
         try:
             UUID(pk)
-            return True
         except Exception:
-            return False
-
-    def get_queryset(self, pk):
-        if not pk:
-            return Author.objects.all().first()
-
-        if not self.validate(pk):
             raise ValidationError({"id": ["Author id invalid"]})
 
-        if not Author.objects.filter(id=pk).exists():
+        queryset = Author.objects.filter(id=pk).first()
+        if not queryset:
             raise NotFound({"message": ["Author not found"]})
 
-        return Author.objects.filter(id=pk).first()
+        return queryset
 
     def post(self, request):
         serializer = AuthorSerializer(data=request.data)

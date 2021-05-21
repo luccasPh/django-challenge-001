@@ -19,24 +19,17 @@ class AdminArticleView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
-    def validate(self, pk):
+    def get_queryset(self, pk):
         try:
             UUID(pk)
-            return True
         except Exception:
-            return False
-
-    def get_queryset(self, pk):
-        if not pk:
-            return Article.objects.all().first()
-
-        if not self.validate(pk):
             raise ValidationError({"id": ["Article id invalid"]})
 
-        if not Article.objects.filter(id=pk).exists():
+        queryset = Article.objects.filter(id=pk).first()
+        if not queryset:
             raise NotFound({"message": ["Article not found"]})
 
-        return Article.objects.filter(id=pk).first()
+        return queryset
 
     def post(self, request: HttpRequest):
         serializer = ArticleSerializer(data=request.data)
