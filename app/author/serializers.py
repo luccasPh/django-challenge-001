@@ -16,7 +16,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         return self.context["request"].build_absolute_uri(obj.picture.url)
 
 
-class AuthorUploadSerializer(serializers.ModelSerializer):
+class PictureAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ["picture"]

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
+    "drf_yasg",
     "user",
     "author",
     "article",
@@ -137,3 +138,11 @@ AUTH_USER_MODEL = "user.User"
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR.joinpath("media")
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
+    },
+    "USE_SESSION_AUTH": False,
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+}
