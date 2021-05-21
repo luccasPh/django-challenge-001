@@ -27,11 +27,11 @@ environ.Env.read_env(f"{BASE_DIR.parent}/.env")
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
+DEBUG = env("DEBUG", default=True)
 
-ALLOWED_HOSTS = json.loads(env("ALLOWED_HOSTS"))
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=[])
 
-
+print(DEBUG, ALLOWED_HOSTS)
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "django_probes",
     "user",
     "author",
     "article",
