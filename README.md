@@ -19,7 +19,7 @@ In order to Run this API in development mode, one should:
     `poetry shell`
 
 - Run docker compose :
-    `docker-compose up`
+    `docker-compose up -d`
 
 - Run migrate:
     `python app/manage.py migrate`
