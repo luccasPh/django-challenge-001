@@ -11,7 +11,7 @@ services:
     command: >
       sh -c "python manage.py wait_for_database &&
              python manage.py migrate &&
-             gunicorn app.wsgi:application  --bind 0.0.0.0:8000"
+             gunicorn app.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       - db
 
@@ -28,6 +28,6 @@ services:
     volumes:
       - ./app/media/:/usr/share/nginx/html/media/
     ports:
-      - 8080:80
+      - 8000:80
     depends_on:
       - app
