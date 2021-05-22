@@ -23,9 +23,12 @@ In order to Run this API in development mode, one should:
 
 - Run migrate:
     `python app/manage.py migrate`
-
+    
 - Create a superuser by running 
     `python app/manage.py createsuperuser`
+
+- Finally run dev serve
+    `python app/manage.py runserver`
 
 - You can test the dev API with the swagger.
     http://localhost:8000/api/docs
