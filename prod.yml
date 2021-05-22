@@ -3,14 +3,15 @@ services:
   app:
     build:
       context: .
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     volumes:
       - ./app:/app
+      - ./app/media/:/usr/share/nginx/html/media/
     command: >
       sh -c "python manage.py wait_for_database &&
              python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+             gunicorn app.wsgi:application  --bind 0.0.0.0:8000"
     depends_on:
       - db
 
@@ -21,3 +22,12 @@ services:
     environment:
       POSTGRES_PASSWORD: "challenge"
       POSTGRES_DB: "challenge"
+  
+  nginx:
+    build: ./nginx
+    volumes:
+      - ./app/media/:/usr/share/nginx/html/media/
+    ports:
+      - 8080:80
+    depends_on:
+      - app
