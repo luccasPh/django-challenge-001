@@ -105,7 +105,7 @@ picture = dict(
     tags=["authors"],
     request_body=PictureAuthorSerializer,
     responses={
-        200: openapi.Response(description="Ok", schema=PictureAuthorSerializer),
+        200: openapi.Response(description="Ok", schema=AuthorSerializer),
         400: bad_request,
         401: unauthorized,
         403: forbidden,

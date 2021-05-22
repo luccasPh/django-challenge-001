@@ -4,6 +4,7 @@ from .models import Author
 
 
 class AuthorSerializer(serializers.ModelSerializer):
+    picture = serializers.SerializerMethodField(source="picture", method_name="get_picture")
     class Meta:
         model = Author
         fields = ["id", "name", "picture"]
@@ -11,7 +12,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     def get_picture(self, obj):
         if not obj.picture:
-            return obj
+            return None
 
         return self.context["request"].build_absolute_uri(obj.picture.url)
 
@@ -20,9 +21,3 @@ class PictureAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ["picture"]
-
-    def get_picture(self, obj):
-        if not obj.picture:
-            return obj
-
-        return self.context["request"].build_absolute_uri(obj.picture.url)

@@ -5,8 +5,7 @@ from .models import Article
 
 
 class AuthorSerializer(serializers.ModelSerializer):
-    picture = serializers.SerializerMethodField(source="picture")
-
+    picture = serializers.SerializerMethodField(source="picture", method_name="get_picture")
     class Meta:
         ref_name = None
         model = apps.get_model("author", "Author")

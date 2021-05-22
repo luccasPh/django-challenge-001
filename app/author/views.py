@@ -54,8 +54,9 @@ class PictureAuthorView(APIView):
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        instance = serializer.save()
 
+        serializer = AuthorSerializer(instance=instance, context={"request": request})
         return Response(data=serializer.data)
 
 
