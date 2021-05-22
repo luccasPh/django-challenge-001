@@ -6,54 +6,48 @@
 - [Poetry](https://python-poetry.org/)
 - [Git](https://git-scm.com/)
 
-
 In order to Run this API in development mode, one should:
 
 - For Linux users need to install this packages
-    `sudo apt install python3-dev libpq-dev`
-    
+  `sudo apt install python3-dev libpq-dev`
 - Install project dependencies:
-    `poetry install`
+  `poetry install`
 
 - Activate the environment:
-    `poetry shell`
+  `poetry shell`
 
 - Run docker compose :
-    `docker-compose up -d`
+  `docker-compose up -d`
 
 - Run migrate:
-    `python app/manage.py migrate`
-    
-- Create a superuser by running 
-    `python app/manage.py createsuperuser`
+  `python app/manage.py migrate`
+- Create a superuser by running
+  `python app/manage.py createsuperuser`
 
 - Finally run dev serve
-    `python app/manage.py runserver`
+  `python app/manage.py runserver`
 
 - You can test the dev API with the swagger.
-    http://localhost:8000/api/docs
-    - To run tests.
-      `python app/manage.py test app`
+  http://localhost:8000/api/docs
+  - To run tests.
+    `python app/manage.py test app`
 
-*************************************************************************************************************************
+---
 
 In order to Run this API in production mode, do it instead:
 
 - Stop containers:
-    `docker-compose stop`
-    
+  `docker-compose stop`
 - Run docker-compose prod:
-    `docker-compose -f docker-compose.prod.yml up -d`
+  `docker-compose -f prod.yml up -d`
 
-- Create a superuser by running 
-    `docker-compose run app bash -c "python manage.py createsuperuser"`
-    - To know your container_id, run docker ps and find the django-challenge-001_app id.
-    
+- Create a superuser by running
+  `docker-compose -f prod.yml run app bash -c "python manage.py createsuperuser"`
+  - To know your container_id, run docker ps and find the django-challenge-001_app id.
 - You can test the prod API with the postman collection located on this repository.
-    http://localhost:8000/api
+  http://localhost:8000/api
 
-
-**************************************************************************************************************************
+---
 
 # Jungle Devs - Django Challenge #001
 
@@ -84,6 +78,7 @@ In order to Run this API in production mode, do it instead:
   - CRUD `/api/admin/authors/`
   - CRUD `/api/admin/articles/`
 - List article endpoint `/api/articles/?category=:slug` with the following response:
+
 ```json
 [
   {
@@ -100,37 +95,40 @@ In order to Run this API in production mode, do it instead:
   ...
 ]
 ```
+
 - Article detail endpoint `/api/articles/:id/` with different responses for anonymous and logged users:
 
-    **Anonymous**
-    ```json
-    {
-      "id": "39df53da-542a-3518-9c19-3568e21644fe",
-      "author": {
-        "id": "2d460e48-a4fa-370b-a2d0-79f2f601988c",
-        "name": "Author Name",
-        "picture": "https://picture.url"
-      },
-      "category": "Category",
-      "title": "Article title",
-      "summary": "This is a summary of the article",
-      "firstParagraph": "<p>This is the first paragraph of this article</p>"
-    }
-    ```
+  **Anonymous**
 
-    **Logged user**
-    ```json
-    {
-      "id": "39df53da-542a-3518-9c19-3568e21644fe",
-      "author": {
-        "id": "2d460e48-a4fa-370b-a2d0-79f2f601988c",
-        "name": "Author Name",
-        "picture": "https://picture.url"
-      },
-      "category": "Category",
-      "title": "Article title",
-      "summary": "This is a summary of the article",
-      "firstParagraph": "<p>This is the first paragraph of this article</p>",
-      "body": "<div><p>Second paragraph</p><p>Third paragraph</p></div>"
-    }
-    ```
+  ```json
+  {
+    "id": "39df53da-542a-3518-9c19-3568e21644fe",
+    "author": {
+      "id": "2d460e48-a4fa-370b-a2d0-79f2f601988c",
+      "name": "Author Name",
+      "picture": "https://picture.url"
+    },
+    "category": "Category",
+    "title": "Article title",
+    "summary": "This is a summary of the article",
+    "firstParagraph": "<p>This is the first paragraph of this article</p>"
+  }
+  ```
+
+  **Logged user**
+
+  ```json
+  {
+    "id": "39df53da-542a-3518-9c19-3568e21644fe",
+    "author": {
+      "id": "2d460e48-a4fa-370b-a2d0-79f2f601988c",
+      "name": "Author Name",
+      "picture": "https://picture.url"
+    },
+    "category": "Category",
+    "title": "Article title",
+    "summary": "This is a summary of the article",
+    "firstParagraph": "<p>This is the first paragraph of this article</p>",
+    "body": "<div><p>Second paragraph</p><p>Third paragraph</p></div>"
+  }
+  ```
