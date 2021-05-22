@@ -16,5 +16,9 @@ urlpatterns = [
     path("api/", include("user.urls")),
     path("api/admin/authors/", include("author.urls")),
     path("api/", include("article.urls")),
-    path("api/docs", schema_view.with_ui("swagger", cache_timeout=0)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += [
+        path("api/docs", schema_view.with_ui("swagger", cache_timeout=0)),
+    ]
