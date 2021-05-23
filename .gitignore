@@ -8,7 +8,6 @@ temp.txt
 *.pyc
 __pycache__/
 local_settings.py
-media
 
 ### Django.Python Stack ###
 # Byte-compiled / optimized / DLL files
