@@ -451,7 +451,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/api/admin/articles/3812d27b-cc18-41d2-9b27-d63f811025e0/",
+							"raw": "http://localhost:8000/api/articles/3812d27b-cc18-41d2-9b27-d63f811025e0/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -459,7 +459,6 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"admin",
 								"articles",
 								"3812d27b-cc18-41d2-9b27-d63f811025e0",
 								""
